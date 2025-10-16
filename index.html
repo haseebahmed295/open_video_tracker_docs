@@ -1,1198 +1,644 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Open Video Tracker - User Guide</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Open Video Tracker — User Guide</title>
+    <meta name="description" content="Open Video Tracker user guide for installation, usage, and best practices." />
     <style>
+        :root {
+            --bg: #ffffff;
+            --text: #111827;
+            --muted: #6b7280;
+            --border: #e5e7eb;
+            --accent: #2563eb;
+            --accent-soft: #eff6ff;
+            --card: #ffffff;
+            --shadow: 0 1px 2px rgba(0, 0, 0, 0.04), 0 4px 16px rgba(0, 0, 0, 0.04);
+            --radius: 12px;
+        }
+
+        /* Base */
         * {
-            margin: 0;
-            padding: 0;
             box-sizing: border-box;
         }
 
-        :root {
-            --primary-color: #ff6b35;
-            --secondary-color: #004e89;
-            --accent-color: #1a659e;
-            --dark-bg: #1a1a2e;
-            --light-bg: #f5f5f5;
-            --text-dark: #2d3436;
-            --text-light: #636e72;
-            --success: #00b894;
-            --warning: #fdcb6e;
+        html {
+            scroll-behavior: smooth;
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
-            color: var(--text-dark);
-            overflow-x: hidden;
+            margin: 0;
+            font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+            color: var(--text);
+            background: var(--bg);
+            line-height: 1.65;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
-        /* Header & Navigation */
-        header {
-            background: linear-gradient(135deg, var(--dark-bg) 0%, var(--secondary-color) 100%);
-            color: white;
-            padding: 1rem 0;
-            position: fixed;
-            width: 100%;
-            top: 0;
-            z-index: 1000;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        a {
+            color: var(--accent);
+            text-decoration: none;
         }
 
-        nav {
-            max-width: 1200px;
+        a:hover {
+            text-decoration: underline;
+        }
+
+        img,
+        video {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+        }
+
+        code,
+        pre,
+        kbd {
+            font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+        }
+
+        pre {
+            background: #0b1220;
+            color: #dbe5ff;
+            border-radius: 10px;
+            padding: 1rem 1rem;
+            overflow: auto;
+            border: 1px solid #0e1730;
+        }
+
+        kbd {
+            background: #f3f4f6;
+            border: 1px solid #e5e7eb;
+            border-bottom-width: 2px;
+            padding: 0 .4rem;
+            border-radius: 6px;
+            font-size: .9em;
+        }
+
+        .container {
+            max-width: 760px;
+            /* Narrow width focus */
             margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 2rem;
+            padding: 20px;
         }
 
-        .logo {
-            font-size: 1.5rem;
-            font-weight: bold;
+        /* Header */
+        header {
+            position: relative;
+            padding: 28px 0 10px;
+        }
+
+        .brand {
             display: flex;
             align-items: center;
+            gap: 12px;
+        }
+
+        .brand-badge {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background: var(--accent-soft);
+            display: grid;
+            place-items: center;
+            color: var(--accent);
+            font-weight: 700;
+            box-shadow: var(--shadow);
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 1.6rem;
+            letter-spacing: -0.02em;
+        }
+
+        .subtitle {
+            margin-top: 4px;
+            color: var(--muted);
+            font-size: .98rem;
+        }
+
+        /* Quick Nav (scrollable on small screens) */
+        .quick-nav {
+            margin: 16px 0 22px;
+            border: 1px solid var(--border);
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            padding: 10px;
+            overflow-x: auto;
+            white-space: nowrap;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .quick-nav a {
+            display: inline-block;
+            padding: 8px 12px;
+            margin: 4px 6px;
+            border: 1px solid var(--border);
+            border-radius: 999px;
+            background: #fff;
+            color: var(--text);
+            text-decoration: none;
+            font-size: .96rem;
+        }
+
+        .quick-nav a:hover {
+            background: var(--accent-soft);
+            color: var(--accent);
+            border-color: #dbeafe;
+        }
+
+        /* Cards / Sections */
+        section.card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 18px 16px;
+            margin: 16px 0;
+            box-shadow: var(--shadow);
+            scroll-margin-top: 80px;
+        }
+
+        section.card h2 {
+            margin: 0 0 6px;
+            font-size: 1.25rem;
+        }
+
+        .meta {
+            color: var(--muted);
+            font-size: .93rem;
+            margin-bottom: 8px;
+        }
+
+        .note {
+            border-left: 3px solid var(--accent);
+            background: #f8fafc;
+            padding: 10px 12px;
+            border-radius: 8px;
+            font-size: .96rem;
+        }
+
+        .grid {
+            display: grid;
             gap: 10px;
         }
 
-        .logo::before {
-            content: "🎬";
-            font-size: 2rem;
+        /* Details (collapsible blocks) */
+        details {
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 8px 10px;
+            margin: 10px 0;
+            background: #fff;
         }
 
-        .nav-links {
-            display: flex;
+        details[open] {
+            background: #fbfdff;
+        }
+
+        details summary {
+            cursor: pointer;
             list-style: none;
-            gap: 2rem;
-        }
-
-        .nav-links a {
-            color: white;
-            text-decoration: none;
-            transition: color 0.3s;
-            font-weight: 500;
-        }
-
-        .nav-links a:hover {
-            color: var(--primary-color);
-        }
-
-        .mobile-menu {
-            display: none;
-            flex-direction: column;
-            gap: 5px;
-            cursor: pointer;
-        }
-
-        .mobile-menu span {
-            width: 25px;
-            height: 3px;
-            background: white;
-            transition: 0.3s;
-        }
-
-        /* Hero Section */
-        .hero {
-            background: linear-gradient(135deg, var(--secondary-color) 0%, var(--accent-color) 100%);
-            color: white;
-            padding: 120px 2rem 80px;
-            text-align: center;
-            margin-top: 60px;
-        }
-
-        .hero h1 {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            animation: fadeInDown 1s;
-        }
-
-        .hero p {
-            font-size: 1.3rem;
-            max-width: 800px;
-            margin: 0 auto 2rem;
-            opacity: 0.95;
-            animation: fadeInUp 1s;
-        }
-
-        .cta-buttons {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        .btn {
-            padding: 12px 30px;
-            border: none;
-            border-radius: 50px;
-            cursor: pointer;
-            font-size: 1rem;
             font-weight: 600;
-            text-decoration: none;
-            display: inline-block;
-            transition: all 0.3s;
-        }
-
-        .btn-primary {
-            background: var(--primary-color);
-            color: white;
-        }
-
-        .btn-primary:hover {
-            background: #ff5722;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(255, 107, 53, 0.4);
-        }
-
-        .btn-secondary {
-            background: transparent;
-            color: white;
-            border: 2px solid white;
-        }
-
-        .btn-secondary:hover {
-            background: white;
-            color: var(--secondary-color);
-        }
-
-        /* Main Content */
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 2rem;
-        }
-
-        section {
-            padding: 80px 0;
-        }
-
-        section:nth-child(even) {
-            background: var(--light-bg);
-        }
-
-        h2 {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-            color: var(--secondary-color);
-            position: relative;
-            padding-bottom: 15px;
-        }
-
-        h2::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 60px;
-            height: 4px;
-            background: var(--primary-color);
-        }
-
-        h3 {
-            font-size: 1.8rem;
-            margin: 2rem 0 1rem;
-            color: var(--accent-color);
-        }
-
-        h4 {
-            font-size: 1.3rem;
-            margin: 1.5rem 0 0.8rem;
-            color: var(--text-dark);
-        }
-
-        /* Installation Steps */
-        .steps {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin: 3rem 0;
-        }
-
-        .step-card {
-            background: white;
-            padding: 2rem;
-            border-radius: 15px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-            transition: transform 0.3s;
-            border-left: 4px solid var(--primary-color);
-        }
-
-        .step-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 30px rgba(0,0,0,0.15);
-        }
-
-        .step-number {
-            width: 50px;
-            height: 50px;
-            background: var(--primary-color);
-            color: white;
-            border-radius: 50%;
             display: flex;
             align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            font-weight: bold;
-            margin-bottom: 1rem;
+            gap: 8px;
         }
 
-        /* Features Grid */
-        .features {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            margin: 3rem 0;
+        details summary::before {
+            content: "▸";
+            color: var(--muted);
+            transition: transform .15s ease;
         }
 
-        .feature-card {
+        details[open] summary::before {
+            transform: rotate(90deg);
+        }
+
+        /* Figures */
+        figure {
+            margin: 12px 0;
+        }
+
+        figcaption {
+            color: var(--muted);
+            font-size: .92rem;
+            margin-top: 6px;
             text-align: center;
-            padding: 2rem;
-            background: white;
-            border-radius: 15px;
-            transition: all 0.3s;
-        }
-
-        .feature-card:hover {
-            transform: scale(1.05);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-        }
-
-        .feature-icon {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-        }
-
-        /* Settings Panel */
-        .settings-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 2rem;
-            margin: 2rem 0;
-        }
-
-        .setting-panel {
-            background: white;
-            padding: 2rem;
-            border-radius: 10px;
-            box-shadow: 0 3px 15px rgba(0,0,0,0.08);
-        }
-
-        .setting-item {
-            margin: 1.5rem 0;
-            padding: 1rem;
-            background: var(--light-bg);
-            border-radius: 8px;
-            border-left: 3px solid var(--accent-color);
-        }
-
-        .setting-item strong {
-            color: var(--secondary-color);
-            display: block;
-            margin-bottom: 0.5rem;
-        }
-
-        /* Code Block */
-        pre {
-            background: var(--dark-bg);
-            color: #00ff00;
-            padding: 1.5rem;
-            border-radius: 10px;
-            overflow-x: auto;
-            margin: 2rem 0;
-            box-shadow: inset 0 2px 10px rgba(0,0,0,0.3);
-        }
-
-        code {
-            font-family: 'Courier New', monospace;
-        }
-
-        /* Best Practices */
-        .tips-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin: 2rem 0;
-        }
-
-        .tip-card {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 2rem;
-            border-radius: 15px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
-        }
-
-        .tip-card h4 {
-            color: white;
-            margin-top: 0;
-        }
-
-        /* Workflow Timeline */
-        .timeline {
-            position: relative;
-            padding: 2rem 0;
-        }
-
-        .timeline::before {
-            content: '';
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 4px;
-            height: 100%;
-            background: var(--primary-color);
-        }
-
-        .timeline-item {
-            display: flex;
-            margin: 2rem 0;
-            position: relative;
-        }
-
-        .timeline-item:nth-child(odd) {
-            flex-direction: row;
-        }
-
-        .timeline-item:nth-child(even) {
-            flex-direction: row-reverse;
-        }
-
-        .timeline-content {
-            flex: 1;
-            padding: 2rem;
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 3px 15px rgba(0,0,0,0.1);
-            margin: 0 2rem;
-        }
-
-        .timeline-dot {
-            width: 20px;
-            height: 20px;
-            background: var(--primary-color);
-            border-radius: 50%;
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
-            border: 4px solid white;
-            box-shadow: 0 0 0 4px var(--primary-color);
-        }
-
-        /* UI Preview */
-        .ui-preview {
-            display: flex;
-            gap: 2rem;
-            justify-content: center;
-            flex-wrap: wrap;
-            margin: 2rem 0;
-        }
-
-        .ui-preview img {
-            max-width: 100%;
-            border-radius: 10px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            transition: transform 0.3s;
-        }
-
-        .ui-preview img:hover {
-            transform: scale(1.05);
-        }
-
-        /* Alert Boxes */
-        .alert {
-            padding: 1.5rem;
-            border-radius: 10px;
-            margin: 2rem 0;
-            border-left: 5px solid;
-        }
-
-        .alert-info {
-            background: #d1ecf1;
-            border-color: #0c5460;
-            color: #0c5460;
-        }
-
-        .alert-warning {
-            background: #fff3cd;
-            border-color: #856404;
-            color: #856404;
-        }
-
-        .alert-success {
-            background: #d4edda;
-            border-color: #155724;
-            color: #155724;
         }
 
         /* Footer */
         footer {
-            background: var(--dark-bg);
-            color: white;
+            color: var(--muted);
+            font-size: .95rem;
+            padding: 40px 0 20px;
             text-align: center;
-            padding: 3rem 2rem;
         }
 
-        .footer-content {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .footer-links {
-            display: flex;
-            justify-content: center;
-            gap: 2rem;
-            margin: 2rem 0;
-            flex-wrap: wrap;
-        }
-
-        .footer-links a {
-            color: white;
-            text-decoration: none;
-            transition: color 0.3s;
-        }
-
-        .footer-links a:hover {
-            color: var(--primary-color);
-        }
-
-        /* Animations */
-        @keyframes fadeInDown {
-            from {
-                opacity: 0;
-                transform: translateY(-30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .nav-links {
-                display: none;
-                position: absolute;
-                top: 100%;
-                left: 0;
-                width: 100%;
-                background: var(--dark-bg);
-                flex-direction: column;
-                padding: 2rem;
-                gap: 1rem;
+        /* Accessibility / motion */
+        @media (prefers-reduced-motion: reduce) {
+            html {
+                scroll-behavior: auto;
             }
 
-            .nav-links.active {
-                display: flex;
+            details summary::before {
+                transition: none;
             }
-
-            .mobile-menu {
-                display: flex;
-            }
-
-            .hero h1 {
-                font-size: 2rem;
-            }
-
-            .hero p {
-                font-size: 1rem;
-            }
-
-            h2 {
-                font-size: 2rem;
-            }
-
-            .timeline::before {
-                left: 20px;
-            }
-
-            .timeline-item {
-                flex-direction: column !important;
-            }
-
-            .timeline-content {
-                margin-left: 60px;
-                margin-right: 0;
-            }
-
-            .timeline-dot {
-                left: 20px;
-            }
-
-            .steps,
-            .features,
-            .settings-grid,
-            .tips-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        /* Scroll Progress Bar */
-        .progress-bar {
-            position: fixed;
-            top: 60px;
-            left: 0;
-            height: 4px;
-            background: var(--primary-color);
-            width: 0%;
-            z-index: 999;
-            transition: width 0.1s;
-        }
-
-        /* Back to Top Button */
-        .back-to-top {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            width: 50px;
-            height: 50px;
-            background: var(--primary-color);
-            color: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            opacity: 0;
-            transition: all 0.3s;
-            font-size: 1.5rem;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-        }
-
-        .back-to-top.visible {
-            opacity: 1;
-        }
-
-        .back-to-top:hover {
-            background: var(--secondary-color);
-            transform: translateY(-5px);
-        }
-
-        /* Table Styles */
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 2rem 0;
-            background: white;
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 3px 15px rgba(0,0,0,0.1);
-        }
-
-        th, td {
-            padding: 1rem;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-        }
-
-        th {
-            background: var(--secondary-color);
-            color: white;
-            font-weight: 600;
-        }
-
-        tr:hover {
-            background: var(--light-bg);
-        }
-
-        /* List Styles */
-        ul, ol {
-            margin: 1rem 0;
-            padding-left: 2rem;
-        }
-
-        li {
-            margin: 0.5rem 0;
-            color: var(--text-light);
-        }
-
-        li strong {
-            color: var(--text-dark);
         }
     </style>
 </head>
+
 <body>
-    <!-- Progress Bar -->
-    <div class="progress-bar" id="progressBar"></div>
+    <a id="top"></a>
+    <div class="container">
 
-    <!-- Header -->
-    <header>
-        <nav>
-            <div class="logo">Open Video Tracker</div>
-            <ul class="nav-links" id="navLinks">
-                <li><a href="#home">Home</a></li>
-                <li><a href="#installation">Installation</a></li>
-                <li><a href="#interface">Interface</a></li>
-                <li><a href="#workflow">Workflow</a></li>
-                <li><a href="#settings">Settings</a></li>
-                <li><a href="#best-practices">Best Practices</a></li>
-            </ul>
-            <div class="mobile-menu" id="mobileMenu">
-                <span></span>
-                <span></span>
-                <span></span>
+        <header aria-label="Header">
+            <div class="brand">
+                <div class="brand-badge" aria-hidden="true">OV</div>
+                <div>
+                    <h1>Open Video Tracker — User Guide</h1>
+    
+                </div>
             </div>
+        </header>
+
+        <nav class="quick-nav" aria-label="Quick navigation">
+            <a href="#intro">Introduction</a>
+            <a href="#demo">Video Demo</a>
+            <a href="#install">Installation</a>
+            <a href="#ui">UI Overview</a>
+            <a href="#workflow">Workflow</a>
+            <a href="#config">Configuration</a>
+            <a href="#running">Running</a>
+            <a href="#importing">Importing</a>
+            <a href="#post">Post-Processing</a>
+            <a href="#best">Best Practices</a>
+            <a href="#fixes">Quick Fixes</a>
+            <a href="#credits">Credits</a>
         </nav>
-    </header>
 
-    <!-- Hero Section -->
-    <section class="hero" id="home">
-        <div class="container">
-            <h1>Open Video Tracker</h1>
-            <p>Automate the process of converting video footage into 3D point clouds and camera tracks using advanced photogrammetry techniques in Blender</p>
-            <div class="cta-buttons">
-                <a href="#installation" class="btn btn-primary">Get Started</a>
-                <a href="#workflow" class="btn btn-secondary">Learn More</a>
-            </div>
-        </div>
-    </section>
+        <main>
 
-    <!-- Introduction -->
-    <section>
-        <div class="container">
-            <h2>Introduction</h2>
-            <p style="font-size: 1.1rem; margin-top: 1rem;">Open Video Tracker is a powerful Blender addon that automates the process of converting video footage into 3D point clouds and camera tracks using photogrammetry techniques. The addon seamlessly integrates FFmpeg, COLMAP, and GLOMAP to provide a streamlined workflow for video tracking and 3D reconstruction.</p>
-            
-            <div class="features">
-                <div class="feature-card">
-                    <div class="feature-icon">🎥</div>
-                    <h4>Video Processing</h4>
-                    <p>Extract frames from any video format with customizable quality settings</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">🔍</div>
-                    <h4>Feature Detection</h4>
-                    <p>Advanced feature extraction with GPU acceleration support</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">📐</div>
-                    <h4>3D Reconstruction</h4>
-                    <p>Generate accurate 3D point clouds and camera tracks automatically</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">⚡</div>
-                    <h4>GPU Acceleration</h4>
-                    <p>CUDA support for RTX Nvidia GPUs for faster processing</p>
-                </div>
-            </div>
-        </div>
-    </section>
+            <section id="intro" class="card" aria-labelledby="intro-title">
+                <h2 id="intro-title">Introduction</h2>
+                <p>
+                    Open Video Tracker is a Blender add‑on that automates converting video footage into 3D point clouds
+                    and camera tracks using photogrammetry techniques. It integrates FFmpeg, COLMAP, and GLOMAP to
+                    provide a streamlined workflow for video tracking and 3D reconstruction.
+                </p>
+                <p class="note">
+                    Note: The add‑on is currently available for Windows only. Use the CUDA build if you have an NVIDIA
+                    RTX GPU; otherwise, use the standard version.
+                </p>
+            </section>
 
-    <!-- Installation -->
-    <section id="installation">
-        <div class="container">
-            <h2>Installation</h2>
-            
-            <div class="alert alert-warning">
-                <strong>⚠️ Platform Notice:</strong> Currently only available on Windows. CUDA version recommended for RTX Nvidia GPU users.
-            </div>
+            <section id="demo" class="card" aria-labelledby="demo-title">
+                <h2 id="demo-title">Video Demo</h2>
+                <p class="meta">See the end-to-end workflow in action.</p>
+                <div class="grid">
+                    
+                    <div
+                        style="position:relative;padding-top:56.25%;border:1px solid var(--border);border-radius:10px;overflow:hidden;box-shadow:var(--shadow);">
+                        <iframe src="https://www.youtube.com/embed/q7-mNeotjDk?si=ChEOEpZE8MKEURom" title="Open Video Tracker Demo"
+                            style="position:absolute;inset:0;width:100%;height:100%;border:0;"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                            referrerpolicy="strict-origin-when-cross-origin" allowfullscreen loading="lazy"></iframe>
+                    </div>
+                </div>
+            </section>
 
-            <div class="steps">
-                <div class="step-card">
-                    <div class="step-number">1</div>
-                    <h3>Download</h3>
+            <section id="install" class="card" aria-labelledby="install-title">
+                <h2 id="install-title">Installation</h2>
+
+                <details open>
+                    <summary>Step 1 — Download the add‑on</summary>
                     <ul>
-                        <li>Download the Open Video Tracker addon file</li>
-                        <li><strong>CUDA version</strong> - for RTX Nvidia GPU</li>
-                        <li><strong>Normal version</strong> - for other systems</li>
-                        <li>Locate the <code>open_video_tracker</code> folder</li>
+                        <li>Download the Open Video Tracker add‑on (Windows only for now).</li>
+                        <li>If you have an NVIDIA RTX GPU, download the CUDA build; otherwise, download the standard
+                            build.</li>
+                        <li>Locate the <code>open_video_tracker</code> folder containing the add‑on files.</li>
                     </ul>
-                </div>
+                </details>
 
-                <div class="step-card">
-                    <div class="step-number">2</div>
-                    <h3>Install in Blender</h3>
+                <details>
+                    <summary>Step 2 — Install in Blender</summary>
                     <ol>
                         <li>Open Blender</li>
-                        <li>Go to <strong>Edit → Preferences</strong></li>
-                        <li>Select the <strong>Add-ons</strong> tab</li>
-                        <li>Click <strong>Addon Settings [^]</strong></li>
-                        <li>Choose <strong>Install from disk</strong></li>
-                        <li>Select the <code>open_video_tracker</code> folder</li>
-                        <li>Click <strong>Install From Disk</strong></li>
+                        <li>Go to <kbd>Edit</kbd> → <kbd>Preferences</kbd></li>
+                        <li>Select the <kbd>Add-ons</kbd> tab</li>
+                        <li>Click <kbd>Install from Disk</kbd></li>
+                        <li>Navigate to and select the <code>open_video_tracker</code> folder</li>
+                        <li>Click <kbd>Install From Disk</kbd></li>
                     </ol>
-                </div>
+                </details>
 
-                <div class="step-card">
-                    <div class="step-number">3</div>
-                    <h3>Verify Installation</h3>
-                    <ul>
+                <details>
+                    <summary>Step 3 — Verify installation</summary>
+                    <ol>
                         <li>Switch to the 3D Viewport</li>
-                        <li>Look for "Open Video Tracker" tab in the right sidebar</li>
-                        <li>If visible, installation was successful! ✓</li>
+                        <li>Open the right sidebar and look for the <strong>Open Video Tracker</strong> tab</li>
+                        <li>If it’s visible, the installation was successful</li>
+                    </ol>
+                </details>
+            </section>
+
+            <section id="ui" class="card" aria-labelledby="ui-title">
+                <h2 id="ui-title">User Interface Overview</h2>
+                <figure>
+                    <img src="https://github.com/user-attachments/assets/a7db1b90-81ba-40e9-8587-4d5447118430"
+                        alt="Open Video Tracker main panel" loading="lazy" />
+                    <img src="https://github.com/user-attachments/assets/4728c200-9fb3-4f4e-a07a-f0dc420cbd2d"
+                        alt="Open Video Tracker import options panel" loading="lazy" style="margin-top:10px;" />
+                    <figcaption>Screenshots of the main panel and import options.</figcaption>
+                </figure>
+
+                <details open>
+                    <summary>Main Panel</summary>
+                    <p>The main interface is located in the 3D Viewport sidebar under the “Open Video Tracker” tab.</p>
+                </details>
+
+                <details>
+                    <summary>Video Selection</summary>
+                    <ul>
+                        <li><strong>Video Path</strong>: File browser to select input video file</li>
+                        <li><strong>Video Information</strong>: Displays frame rate, resolution, and bitrate</li>
                     </ul>
-                </div>
-            </div>
+                </details>
 
-            <div class="alert alert-success">
-                <strong>✓ Success!</strong> You're now ready to start tracking videos in Blender.
-            </div>
-        </div>
-    </section>
+                <details>
+                    <summary>Frame Extraction Settings</summary>
+                    <ul>
+                        <li><strong>Quality</strong>: Native, High, Balanced, Low, Lowest</li>
+                    </ul>
+                </details>
 
-    <!-- User Interface -->
-    <section id="interface">
-        <div class="container">
-            <h2>User Interface Overview</h2>
-            
-            <div class="ui-preview">
-                <img src="https://github.com/user-attachments/assets/a7db1b90-81ba-40e9-8587-4d5447118430" alt="UI Panel 1" style="max-width: 347px;">
-                <img src="https://github.com/user-attachments/assets/4728c200-9fb3-4f4e-a07a-f0dc420cbd2d" alt="UI Panel 2" style="max-width: 350px;">
-            </div>
+                <details>
+                    <summary>Feature Extraction Settings</summary>
+                    <ul>
+                        <li><strong>Max Image Size</strong> (default: 2000 px)</li>
+                        <li><strong>Use GPU</strong>: Enable for CUDA version</li>
+                        <li><strong>Camera Model</strong>: Simple Radial recommended</li>
+                        <li><strong>Max Num Features</strong> (default: 8192)</li>
+                    </ul>
+                </details>
 
-            <h3>Main Panel</h3>
-            <p>The main interface is located in the 3D Viewport sidebar under the "Open Video Tracker" tab.</p>
+                <details>
+                    <summary>Sequential Matching</summary>
+                    <ul>
+                        <li><strong>Overlap</strong>: Number of overlapping frames (default: 10)</li>
+                    </ul>
+                </details>
 
-            <div class="settings-grid">
-                <div class="setting-panel">
-                    <h4>Video Selection Section</h4>
-                    <div class="setting-item">
-                        <strong>Video Path:</strong> File browser to select input video file
-                    </div>
-                    <div class="setting-item">
-                        <strong>Video Information:</strong> Displays frame rate, resolution, and bitrate (populated automatically)
-                    </div>
-                </div>
+                <details>
+                    <summary>Reconstruction Settings</summary>
+                    <ul>
+                        <li><strong>Max Tracks</strong> per image (default: 1000)</li>
+                        <li><strong>Constraint Type</strong>: Balance between point and camera constraints</li>
+                        <li><strong>Advanced Options</strong>: GLOMAP parameters (epipolar error, iterations)</li>
+                    </ul>
+                </details>
 
-                <div class="setting-panel">
-                    <h4>Frame Extraction Settings</h4>
-                    <div class="setting-item">
-                        <strong>Quality Presets:</strong> Native, High, Balanced, Low, Lowest
-                    </div>
-                </div>
+                <details>
+                    <summary>Execution Controls</summary>
+                    <ul>
+                        <li><strong>Track Video</strong>: Start the processing pipeline</li>
+                        <li><strong>Progress</strong>: Real-time progress indicator</li>
+                    </ul>
+                </details>
 
-                <div class="setting-panel">
-                    <h4>Feature Extraction Settings</h4>
-                    <div class="setting-item">
-                        <strong>Max Image Size:</strong> Maximum dimension for feature extraction (default: 2000px)
-                    </div>
-                    <div class="setting-item">
-                        <strong>Use GPU:</strong> Enable GPU acceleration (CUDA version only)
-                    </div>
-                    <div class="setting-item">
-                        <strong>Camera Model:</strong> Camera distortion model selection
-                    </div>
-                    <div class="setting-item">
-                        <strong>Max Num Features:</strong> Maximum features per image (default: 8192)
-                    </div>
-                </div>
+                <details>
+                    <summary>Import Options Panel</summary>
+                    <h3 style="margin:.6rem 0 .4rem;font-size:1.05rem;">Camera Import</h3>
+                    <ul>
+                        <li><strong>Import Cameras</strong>: Enable camera track import</li>
+                        <li><strong>Camera Extent</strong>: Size of camera visualization</li>
+                        <li><strong>Add Background Images</strong></li>
+                        <li><strong>Add Image Planes</strong></li>
+                        <li><strong>Animation Options</strong></li>
+                    </ul>
+                    <h3 style="margin:.6rem 0 .4rem;font-size:1.05rem;">Point Import</h3>
+                    <ul>
+                        <li><strong>Import Points</strong></li>
+                        <li><strong>Point Cloud Display</strong>: Sparsity and rendering options</li>
+                        <li><strong>GPU Rendering</strong></li>
+                        <li><strong>Mesh Options</strong></li>
+                    </ul>
+                </details>
+            </section>
 
-                <div class="setting-panel">
-                    <h4>Sequential Matching Settings</h4>
-                    <div class="setting-item">
-                        <strong>Overlap:</strong> Number of overlapping frames for sequential matching (default: 10)
-                    </div>
-                </div>
+            <section id="workflow" class="card" aria-labelledby="workflow-title">
+                <h2 id="workflow-title">Workflow</h2>
 
-                <div class="setting-panel">
-                    <h4>Reconstruction Settings</h4>
-                    <div class="setting-item">
-                        <strong>Max Tracks:</strong> Maximum tracks per image (default: 1000)
-                    </div>
-                    <div class="setting-item">
-                        <strong>Constraint Type:</strong> Balance between point and camera constraints
-                    </div>
-                    <div class="setting-item">
-                        <strong>Advanced Options:</strong> Additional GLOMAP parameters
-                    </div>
-                </div>
+                <details open>
+                    <summary>Step 1 — Prepare your video</summary>
+                    <ul>
+                        <li>Supported formats: MP4, AVI, MOV, MKV, WMV, FLV, WebM</li>
+                        <li>Use high-quality, stable footage</li>
+                        <li>Ensure good lighting and contrast</li>
+                        <li>Start with short clips for testing</li>
+                    </ul>
+                </details>
 
-                <div class="setting-panel">
-                    <h4>Execution Controls</h4>
-                    <div class="setting-item">
-                        <strong>Track Video:</strong> Button to start the processing pipeline
-                    </div>
-                    <div class="setting-item">
-                        <strong>Progress:</strong> Real-time progress indicator during processing
-                    </div>
-                </div>
-            </div>
+                <details>
+                    <summary>Step 2 — Configure processing settings</summary>
+                    <h3 style="margin:.6rem 0 .4rem;font-size:1.05rem;">Video Quality</h3>
+                    <ul>
+                        <li><strong>Native/High</strong>: Best quality, slowest processing</li>
+                        <li><strong>Balanced</strong>: Good quality/performance</li>
+                        <li><strong>Low/Lowest</strong>: Fastest, smaller files</li>
+                    </ul>
+                    <h3 style="margin:.6rem 0 .4rem;font-size:1.05rem;">Feature Extraction</h3>
+                    <ul>
+                        <li>Increase Max Image Size for high-res videos</li>
+                        <li>Enable GPU if available</li>
+                        <li>Choose camera model based on camera type</li>
+                    </ul>
+                    <h3 style="margin:.6rem 0 .4rem;font-size:1.05rem;">Reconstruction</h3>
+                    <ul>
+                        <li>Adjust Max Tracks for scene complexity</li>
+                        <li>Use <em>Balanced</em> constraints for most cases</li>
+                    </ul>
+                </details>
 
-            <h3>Import Options Panel</h3>
-            <div class="settings-grid">
-                <div class="setting-panel">
-                    <h4>Camera Import Settings</h4>
-                    <div class="setting-item">
-                        <strong>Import Cameras:</strong> Enable camera track import
-                    </div>
-                    <div class="setting-item">
-                        <strong>Camera Extent:</strong> Size of camera visualization
-                    </div>
-                    <div class="setting-item">
-                        <strong>Add Background Images:</strong> Include original frames as background
-                    </div>
-                    <div class="setting-item">
-                        <strong>Add Image Planes:</strong> Create image plane objects
-                    </div>
-                    <div class="setting-item">
-                        <strong>Animation Options:</strong> Camera motion animation settings
-                    </div>
-                </div>
+                <details>
+                    <summary>Step 3 — Run the pipeline</summary>
+                    <ul>
+                        <li>Click <strong>Track Video</strong></li>
+                        <li>Monitor progress</li>
+                        <li>Processing time depends on video length and settings</li>
+                        <li>Do not close Blender during processing</li>
+                    </ul>
+                </details>
 
-                <div class="setting-panel">
-                    <h4>Point Import Settings</h4>
-                    <div class="setting-item">
-                        <strong>Import Points:</strong> Enable point cloud import
-                    </div>
-                    <div class="setting-item">
-                        <strong>Point Cloud Display:</strong> Sparsity and rendering options
-                    </div>
-                    <div class="setting-item">
-                        <strong>GPU Rendering:</strong> Hardware-accelerated point display
-                    </div>
-                    <div class="setting-item">
-                        <strong>Mesh Options:</strong> Convert points to mesh objects
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+                <details>
+                    <summary>Step 4 — Import results</summary>
+                    <p>After processing completes, the add‑on automatically imports:</p>
+                    <ul>
+                        <li>Camera objects with animation data</li>
+                        <li>Point cloud data</li>
+                        <li>Background images (if enabled)</li>
+                    </ul>
+                </details>
+            </section>
 
-    <!-- Workflow -->
-    <section id="workflow">
-        <div class="container">
-            <h2>Workflow</h2>
-            
-            <div class="timeline">
-                <div class="timeline-item">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-content">
-                        <h3>Step 1: Prepare Your Video</h3>
-                        <p><strong>Supported formats:</strong> MP4, AVI, MOV, MKV, WMV, FLV, WebM</p>
-                        <p><strong>For best results:</strong></p>
-                        <ul>
-                            <li>Use high-quality, stable footage</li>
-                            <li>Avoid excessive camera movement or shaky footage</li>
-                            <li>Ensure good lighting and contrast</li>
-                            <li>Keep video length reasonable (start with short clips for testing)</li>
-                        </ul>
-                    </div>
-                </div>
+            <section id="config" class="card" aria-labelledby="config-title">
+                <h2 id="config-title">Configuration Options</h2>
 
-                <div class="timeline-item">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-content">
-                        <h3>Step 2: Configure Processing Settings</h3>
-                        <p><strong>Video Quality:</strong></p>
-                        <ul>
-                            <li><strong>Native/High:</strong> Best quality, largest files, slowest processing</li>
-                            <li><strong>Balanced:</strong> Good quality/performance balance</li>
-                            <li><strong>Low/Lowest:</strong> Fast processing, smaller files</li>
-                        </ul>
-                        <p><strong>Feature Extraction:</strong></p>
-                        <ul>
-                            <li>Increase Max Image Size for high-resolution videos</li>
-                            <li>Enable GPU if available for faster processing</li>
-                            <li>Choose appropriate camera model based on your camera type</li>
-                        </ul>
-                        <p><strong>Reconstruction:</strong></p>
-                        <ul>
-                            <li>Adjust Max Tracks based on scene complexity</li>
-                            <li>Use Balanced constraint type for most scenarios</li>
-                        </ul>
-                    </div>
-                </div>
+                <details open>
+                    <summary>Camera Models</summary>
+                    <ul>
+                        <li><strong>Simple Radial</strong>: Most consumer cameras (smartphones, DSLRs)</li>
+                        <li><strong>Simple Radial Fisheye</strong>: Action cameras (GoPro)</li>
+                        <li><strong>OpenCV</strong>: Computer vision cameras</li>
+                        <li><strong>Full OpenCV</strong>: Complex distortion scenarios</li>
+                    </ul>
+                </details>
 
-                <div class="timeline-item">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-content">
-                        <h3>Step 3: Run the Pipeline</h3>
-                        <ul>
-                            <li>Click <strong>"Track Video"</strong> to start processing</li>
-                            <li>Monitor progress in the progress bar</li>
-                            <li>Processing time varies based on video length and settings</li>
-                            <li><strong>⚠️ Do not close Blender during processing</strong></li>
-                        </ul>
-                    </div>
-                </div>
+                <details>
+                    <summary>Constraint Types</summary>
+                    <ul>
+                        <li><strong>Points Only</strong>: When camera positions are unreliable</li>
+                        <li><strong>Cameras Only</strong>: When point features are sparse</li>
+                        <li><strong>Balanced</strong>: Recommended default</li>
+                        <li><strong>Points and Cameras</strong>: Maximum constraints, slower</li>
+                    </ul>
+                </details>
+            </section>
 
-                <div class="timeline-item">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-content">
-                        <h3>Step 4: Import Results</h3>
-                        <p>After processing completes, the results are automatically imported:</p>
-                        <ul>
-                            <li>✓ Camera objects with animation data</li>
-                            <li>✓ Point cloud data</li>
-                            <li>✓ Background images (if enabled)</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+            <section id="running" class="card" aria-labelledby="running-title">
+                <h2 id="running-title">Running the Pipeline</h2>
 
-    <!-- Configuration Options -->
-    <section id="settings">
-        <div class="container">
-            <h2>Configuration Options</h2>
+                <details open>
+                    <summary>Progress</summary>
+                    <ul>
+                        <li>Each step is logged to the Blender console</li>
+                        <li>View via <kbd>Window</kbd> → <kbd>Toggle System Console</kbd> (Windows)</li>
+                    </ul>
+                </details>
 
-            <h3>Camera Models</h3>
-            <p>Choose the appropriate camera model based on your camera type:</p>
-            
-            <table>
-                <thead>
-                    <tr>
-                        <th>Camera Model</th>
-                        <th>Best For</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><strong>Simple Radial</strong></td>
-                        <td>Most consumer cameras (smartphones, DSLRs)</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Simple Radial Fisheye</strong></td>
-                        <td>Action cameras (GoPro)</td>
-                    </tr>
-                    <tr>
-                        <td><strong>OpenCV</strong></td>
-                        <td>Computer vision cameras</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Full OpenCV</strong></td>
-                        <td>Complex distortion scenarios</td>
-                    </tr>
-                </tbody>
-            </table>
-
-            <h3>Constraint Types</h3>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Constraint Type</th>
-                        <th>When to Use</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><strong>Points Only</strong></td>
-                        <td>When camera positions are unreliable</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Cameras Only</strong></td>
-                        <td>When point features are sparse</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Balanced</strong></td>
-                        <td>Recommended for most scenarios ⭐</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Points and Cameras</strong></td>
-                        <td>Maximum constraints, slower processing</td>
-                    </tr>
-                </tbody>
-            </table>
-
-            <h3>Expected Output</h3>
-            <p>The addon creates the following directory structure:</p>
-
-            <pre><code>{your_blend_file_directory}/
+                <details>
+                    <summary>Expected output</summary>
+                    <p>The add‑on uses the same directory as the .blend file and creates:</p>
+                    <pre><code>{your_blend_file_directory}/
 └── video_tracking/
     └── {video_name}/
-        ├── images/          # Extracted frames
-        ├── sparse/          # Reconstruction data
-        │   ├── 0/          # Model files
-        │   ├── cameras.txt # Camera data
-        │   ├── images.txt  # Image data
-        │   └── points3D.txt # Point cloud data
-        └── database.db     # COLMAP database</code></pre>
+        ├── images/           # Extracted frames
+        ├── sparse/           # Reconstruction data
+        │   ├── 0/            # Model files
+        │   ├── cameras.txt   # Camera data
+        │   ├── images.txt    # Image data
+        │   └── points3D.txt  # Point cloud data
+        └── database.db       # COLMAP database
+</code></pre>
+                </details>
+            </section>
 
-            <div class="alert alert-info">
-                <strong>💡 Tip:</strong> Monitor each step via <strong>Window → Toggle System Console</strong>
-            </div>
-        </div>
-    </section>
+            <section id="importing" class="card" aria-labelledby="importing-title">
+                <h2 id="importing-title">Importing Results</h2>
 
-    <!-- Best Practices -->
-    <section id="best-practices">
-        <div class="container">
-            <h2>Best Practices</h2>
+                <details open>
+                    <summary>Camera Import</summary>
+                    <ul>
+                        <li><strong>Camera Extent</strong>: Visual size of camera objects</li>
+                        <li><strong>Background Images</strong>: Show original frames</li>
+                        <li><strong>Image Planes</strong>: Create textured planes</li>
+                        <li><strong>Animation</strong>: Convert camera motion to keyframes</li>
+                    </ul>
+                </details>
 
-            <h3>Video Preparation</h3>
-            <div class="tips-grid">
-                <div class="tip-card">
-                    <h4>📹 Resolution</h4>
-                    <p>Higher resolution provides better tracking but increases processing time. Balance quality with performance needs.</p>
-                </div>
-                <div class="tip-card">
-                    <h4>🎬 Frame Rate</h4>
-                    <p>24-30 fps is optimal. Higher frame rates may not improve tracking significantly.</p>
-                </div>
-                <div class="tip-card">
-                    <h4>🎯 Stabilization</h4>
-                    <p>Use stabilized footage when possible for more reliable tracking results.</p>
-                </div>
-                <div class="tip-card">
-                    <h4>💡 Lighting</h4>
-                    <p>Ensure consistent, even lighting throughout your footage.</p>
-                </div>
-                <div class="tip-card">
-                    <h4>🎥 Motion</h4>
-                    <p>Smooth camera movement works better than jerky motion for accurate reconstruction.</p>
-                </div>
-            </div>
+                <details>
+                    <summary>Point Cloud Import</summary>
+                    <ul>
+                        <li><strong>Display Sparsity</strong>: Reduce density for performance</li>
+                        <li><strong>GPU Rendering</strong></li>
+                        <li><strong>Mesh Conversion</strong>: Convert points to mesh objects</li>
+                    </ul>
+                </details>
+            </section>
 
-            <h3>Processing Optimization</h3>
-            <div class="settings-grid">
-                <div class="setting-panel">
-                    <h4>⚡ Performance Tips</h4>
-                    <div class="setting-item">
-                        <strong>Start Small:</strong> Test with short video clips first to optimize settings
-                    </div>
-                    <div class="setting-item">
-                        <strong>GPU Usage:</strong> Enable GPU acceleration when available for significant speed improvements
-                    </div>
-                    <div class="setting-item">
-                        <strong>Quality Settings:</strong> Use Balanced quality for initial tests
-                    </div>
-                    <div class="setting-item">
-                        <strong>Memory Management:</strong> Monitor RAM usage with large videos
-                    </div>
-                </div>
+            <section id="post" class="card" aria-labelledby="post-title">
+                <h2 id="post-title">Post‑Processing</h2>
+                <p>Coming soon.</p>
+            </section>
 
-                <div class="setting-panel">
-                    <h4>🎯 Scene Considerations</h4>
-                    <div class="setting-item">
-                        <strong>Feature-Rich:</strong> Scenes with lots of texture and detail track better
-                    </div>
-                    <div class="setting-item">
-                        <strong>Motion Blur:</strong> Minimize motion blur for better feature detection
-                    </div>
-                    <div class="setting-item">
-                        <strong>Scale:</strong> Include objects of known size for scale reference
-                    </div>
-                    <div class="setting-item">
-                        <strong>Overlap:</strong> Ensure sufficient scene overlap between frames
-                    </div>
-                </div>
-            </div>
+            <section id="best" class="card" aria-labelledby="best-title">
+                <h2 id="best-title">Best Practices</h2>
 
-            <h3>Quick Fixes</h3>
-            <div class="alert alert-warning">
-                <h4>Common Issues & Solutions:</h4>
+                <details open>
+                    <summary>Video Preparation</summary>
+                    <ul>
+                        <li><strong>Resolution</strong>: Higher resolution improves tracking but increases time</li>
+                        <li><strong>Frame Rate</strong>: 24–30 fps is optimal</li>
+                        <li><strong>Stabilization</strong>: Use stabilized footage when possible</li>
+                        <li><strong>Lighting</strong>: Ensure consistent, even lighting</li>
+                        <li><strong>Motion</strong>: Prefer smooth camera movement</li>
+                    </ul>
+                </details>
+
+                <details>
+                    <summary>Processing Optimization</summary>
+                    <ul>
+                        <li><strong>Start Small</strong>: Test with short clips first</li>
+                        <li><strong>GPU Usage</strong>: Enable when available</li>
+                        <li><strong>Quality Settings</strong>: Use Balanced for initial tests</li>
+                        <li><strong>Memory Management</strong>: Monitor RAM with large videos</li>
+                    </ul>
+                </details>
+
+                <details>
+                    <summary>Scene Considerations</summary>
+                    <ul>
+                        <li><strong>Feature‑Rich</strong> scenes track better</li>
+                        <li>Minimize <strong>motion blur</strong></li>
+                        <li>Include objects of known <strong>scale</strong></li>
+                        <li>Ensure sufficient frame <strong>overlap</strong></li>
+                    </ul>
+                </details>
+            </section>
+
+            <section id="fixes" class="card" aria-labelledby="fixes-title">
+                <h2 id="fixes-title">Quick Fixes</h2>
                 <ul>
-                    <li><strong>Processing Fails:</strong> Check executable paths in preferences</li>
-                    <li><strong>Out of Memory:</strong> Reduce Max Image Size or use lower quality</li>
-                    <li><strong>Poor Tracking:</strong> Adjust camera model or increase Max Features</li>
-                    <li><strong>Slow Processing:</strong> Enable GPU or reduce video resolution</li>
+                    <li><strong>Processing fails</strong>: Check executable paths in preferences</li>
+                    <li><strong>Out of memory</strong>: Reduce Max Image Size or use lower quality</li>
+                    <li><strong>Poor tracking</strong>: Adjust camera model or increase Max Features</li>
+                    <li><strong>Slow processing</strong>: Enable GPU or reduce video resolution</li>
                 </ul>
-            </div>
-        </div>
-    </section>
+            </section>
 
-    <!-- Footer -->
-    <footer>
-        <div class="footer-content">
-            <h3>Open Video Tracker</h3>
-            <p>Powerful 3D reconstruction for Blender</p>
-            <div class="footer-links">
-                <a href="#home">Home</a>
-                <a href="#installation">Installation</a>
-                <a href="#workflow">Workflow</a>
-                <a href="#settings">Settings</a>
-                <a href="#best-practices">Best Practices</a>
-            </div>
-            <p style="margin-top: 2rem; opacity: 0.7;">© 2024 Open Video Tracker. Currently available on Windows only.</p>
-        </div>
-    </footer>
+            <section id="credits" class="card" aria-labelledby="credits-title">
+                <h2 id="credits-title">Credits</h2>
+                <ul>
+                    <li>Blender — 3D creation suite (<a href="https://www.blender.org" target="_blank"
+                            rel="noopener">blender.org</a>)</li>
+                    <li>FFmpeg — Video processing toolkit (<a href="https://ffmpeg.org" target="_blank"
+                            rel="noopener">ffmpeg.org</a>)</li>
+                    <li>COLMAP — Structure-from-Motion and MVS (<a href="https://colmap.github.io" target="_blank"
+                            rel="noopener">colmap.github.io</a>)</li>
+                    <li>GLOMAP — Global incremental SfM (<a href="https://github.com/colmap/glomap" target="_blank"
+                            rel="noopener">github.com/colmap/glomap</a>)</li>
+                    <li>Blender Photogrammetry Importer (<a href="https://github.com/SBCV/Blender-Addon-Photogrammetry-Importer" target="_blank"
+                            rel="noopener">github.com/SBCV/Blender-Addon-Photogrammetry-Importer</a>)</li>
+                    <li>Thanks to the open‑source community and contributors</li>
+                </ul>
+                <p class="meta">Logos and trademarks are the property of their respective owners.</p>
+            </section>
 
-    <!-- Back to Top Button -->
-    <div class="back-to-top" id="backToTop">↑</div>
+        </main>
 
-    <script>
-        // Mobile Menu Toggle
-        const mobileMenu = document.getElementById('mobileMenu');
-        const navLinks = document.getElementById('navLinks');
-        
-        mobileMenu.addEventListener('click', () => {
-            navLinks.classList.toggle('active');
-        });
+        <footer>
+            <p>
+                Need help or want to report an issue? Visit the project repository:
+                <a href="YOUR_GITHUB_REPO_URL" target="_blank" rel="noopener">GitHub</a>
+            </p>
+            <p><a href="#top" aria-label="Back to top">Back to top ↑</a></p>
+        </footer>
 
-        // Close mobile menu when clicking a link
-        navLinks.querySelectorAll('a').forEach(link => {
-            link.addEventListener('click', () => {
-                navLinks.classList.remove('active');
-            });
-        });
-
-        // Smooth Scrolling
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            });
-        });
-
-        // Scroll Progress Bar
-        window.addEventListener('scroll', () => {
-            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
-            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-            const scrolled = (winScroll / height) * 100;
-            document.getElementById('progressBar').style.width = scrolled + '%';
-        });
-
-        // Back to Top Button
-        const backToTop = document.getElementById('backToTop');
-        
-        window.addEventListener('scroll', () => {
-            if (window.pageYOffset > 300) {
-                backToTop.classList.add('visible');
-            } else {
-                backToTop.classList.remove('visible');
-            }
-        });
-
-        backToTop.addEventListener('click', () => {
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
-        });
-
-        // Add animation on scroll
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
-
-        const observer = new IntersectionObserver(function(entries) {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
-                }
-            });
-        }, observerOptions);
-
-        // Observe all sections
-        document.querySelectorAll('section').forEach(section => {
-            section.style.opacity = '0';
-            section.style.transform = 'translateY(20px)';
-            section.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-            observer.observe(section);
-        });
-    </script>
+    </div>
 </body>
+
 </html>
