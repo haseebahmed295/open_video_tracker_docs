@@ -4,8 +4,8 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Open Video Tracker — User Guide</title>
-    <meta name="description" content="Open Video Tracker user guide for installation, usage, and best practices." />
+    <title>Open Video Tracker — User Guide v0.2</title>
+    <meta name="description" content="Open Video Tracker v0.2 user guide for installation, usage, and best practices." />
     <style>
         :root {
             --bg: #ffffff;
@@ -260,8 +260,8 @@
             <div class="brand">
                 <div class="brand-badge" aria-hidden="true">OV</div>
                 <div>
-                    <h1>Open Video Tracker — User Guide</h1>
-    
+                    <h1>Open Video Tracker — User Guide v0.2</h1>
+                    <div class="subtitle">Version 0.2 - Enhanced Import UI, Reimport Options, Z-Axis Fixes & GPU Preferences</div>
                 </div>
             </div>
         </header>
@@ -290,6 +290,15 @@
                     and camera tracks using photogrammetry techniques. It integrates FFmpeg, COLMAP, and GLOMAP to
                     provide a streamlined workflow for video tracking and 3D reconstruction.
                 </p>
+                <p class="note">
+                    <strong>What's New in v0.2:</strong>
+                </p>
+                <ul>
+                    <li>🎨 <strong>Improved Import Menu UI</strong> - Enhanced interface with better organization and visual feedback</li>
+                    <li>🔄 <strong>Reimport Data Option</strong> - Easily reimport previously processed data without reprocessing</li>
+                    <li>📐 <strong>Z-Axis Data Postprocessing</strong> - Automatic correction for Z-axis alignment issues</li>
+                    <li>⚙️ <strong>GPU Settings in Preferences</strong> - Separated GPU controls for more fine-tuned control</li>
+                </ul>
                 <p class="note">
                     Note: The add‑on is currently available for Windows only. Use the CUDA build if you have an NVIDIA
                     RTX GPU; otherwise, use the standard version.
@@ -348,13 +357,6 @@
 
             <section id="ui" class="card" aria-labelledby="ui-title">
                 <h2 id="ui-title">User Interface Overview</h2>
-                <figure>
-                    <img src="https://github.com/user-attachments/assets/a7db1b90-81ba-40e9-8587-4d5447118430"
-                        alt="Open Video Tracker main panel" loading="lazy" />
-                    <img src="https://github.com/user-attachments/assets/4728c200-9fb3-4f4e-a07a-f0dc420cbd2d"
-                        alt="Open Video Tracker import options panel" loading="lazy" style="margin-top:10px;" />
-                    <figcaption>Screenshots of the main panel and import options.</figcaption>
-                </figure>
 
                 <details open>
                     <summary>Main Panel</summary>
@@ -380,10 +382,10 @@
                     <summary>Feature Extraction Settings</summary>
                     <ul>
                         <li><strong>Max Image Size</strong> (default: 2000 px)</li>
-                        <li><strong>Use GPU</strong>: Enable for CUDA version</li>
                         <li><strong>Camera Model</strong>: Simple Radial recommended</li>
                         <li><strong>Max Num Features</strong> (default: 8192)</li>
                     </ul>
+                    <p class="note"><strong>v0.2 Update:</strong> GPU settings have been moved to Preferences for more fine-grained control. See Configuration section for details.</p>
                 </details>
 
                 <details>
@@ -412,6 +414,7 @@
 
                 <details>
                     <summary>Import Options Panel</summary>
+                    <p><strong>v0.2 Enhancement:</strong> The import menu has been redesigned with improved organization and visual feedback.</p>
                     <h3 style="margin:.6rem 0 .4rem;font-size:1.05rem;">Camera Import</h3>
                     <ul>
                         <li><strong>Import Cameras</strong>: Enable camera track import</li>
@@ -426,6 +429,11 @@
                         <li><strong>Point Cloud Display</strong>: Sparsity and rendering options</li>
                         <li><strong>GPU Rendering</strong></li>
                         <li><strong>Mesh Options</strong></li>
+                    </ul>
+                    <h3 style="margin:.6rem 0 .4rem;font-size:1.05rem;">Advanced Options (v0.2)</h3>
+                    <ul>
+                        <li><strong>🔄 Reimport Data</strong>: <em>New in v0.2</em> - Import previously processed data without reprocessing</li>
+                        <li><strong>📐 Z-Axis Postprocessing</strong>: <em>New in v0.2</em> - Automatic correction for Z-axis alignment issues</li>
                     </ul>
                 </details>
             </section>
@@ -489,6 +497,17 @@
                 <h2 id="config-title">Configuration Options</h2>
 
                 <details open>
+                    <summary>GPU Settings <em>(Moved to Preferences in v0.2)</em></summary>
+                    <ul>
+                        <li><strong>Enable GPU Acceleration</strong>: Use CUDA for NVIDIA RTX GPUs</li>
+                        <li><strong>GPU Memory Limit</strong>: Set maximum GPU memory usage</li>
+                        <li><strong>Compute Device</strong>: Select specific GPU device (multi-GPU systems)</li>
+                        <li><strong>Force CPU Fallback</strong>: Override GPU settings for troubleshooting</li>
+                    </ul>
+                    <p class="note">GPU settings are now accessible via <kbd>Edit</kbd> → <kbd>Preferences</kbd> → <kbd>Add-ons</kbd> → <kbd>Open Video Tracker</kbd> → <kbd>GPU Configuration</kbd></p>
+                </details>
+
+                <details>
                     <summary>Camera Models</summary>
                     <ul>
                         <li><strong>Simple Radial</strong>: Most consumer cameras (smartphones, DSLRs)</li>
@@ -505,6 +524,16 @@
                         <li><strong>Cameras Only</strong>: When point features are sparse</li>
                         <li><strong>Balanced</strong>: Recommended default</li>
                         <li><strong>Points and Cameras</strong>: Maximum constraints, slower</li>
+                    </ul>
+                </details>
+
+                <details>
+                    <summary>Post-Processing Options <em>(New in v0.2)</em></summary>
+                    <ul>
+                        <li><strong>Z-Axis Auto-Correction</strong>: Automatically fix Z-axis alignment issues</li>
+                        <li><strong>Scale Normalization</strong>: Normalize point cloud scale</li>
+                        <li><strong>Outlier Removal</strong>: Remove statistical outliers from point clouds</li>
+                        <li><strong>Smoothing</strong>: Apply mesh smoothing for better surface quality</li>
                     </ul>
                 </details>
             </section>
@@ -539,8 +568,19 @@
 
             <section id="importing" class="card" aria-labelledby="importing-title">
                 <h2 id="importing-title">Importing Results</h2>
+                <p class="note"><strong>v0.2 Enhancement:</strong> Improved import menu with better organization and new reimport functionality.</p>
 
                 <details open>
+                    <summary>New Reimport Option <em>(v0.2)</em></summary>
+                    <ul>
+                        <li><strong>Quick Reimport</strong>: Import previously processed results without reprocessing</li>
+                        <li><strong>Selective Reimport</strong>: Choose specific data types to reimport</li>
+                        <li><strong>Update Existing</strong>: Update current scene without creating duplicates</li>
+                        <li><strong>History Browser</strong>: Browse and select from previous processing sessions</li>
+                    </ul>
+                </details>
+
+                <details>
                     <summary>Camera Import</summary>
                     <ul>
                         <li><strong>Camera Extent</strong>: Visual size of camera objects</li>
@@ -558,11 +598,41 @@
                         <li><strong>Mesh Conversion</strong>: Convert points to mesh objects</li>
                     </ul>
                 </details>
+
+                <details>
+                    <summary>Z-Axis Post-Processing <em>(New in v0.2)</em></summary>
+                    <ul>
+                        <li><strong>Auto Z-Correction</strong>: Automatically detect and fix Z-axis issues</li>
+                        <li><strong>Manual Z-Offset</strong>: Apply custom Z-axis offset if needed</li>
+                        <li><strong>Ground Plane Detection</strong>: Automatically detect and align to ground plane</li>
+                        <li><strong>Preview Mode</strong>: Preview corrections before applying</li>
+                    </ul>
+                </details>
             </section>
 
             <section id="post" class="card" aria-labelledby="post-title">
                 <h2 id="post-title">Post‑Processing</h2>
-                <p>Coming soon.</p>
+                <p class="note"><strong>v0.2 Update:</strong> Enhanced post-processing capabilities now available.</p>
+                
+                <details open>
+                    <summary>Z-Axis Data Correction</summary>
+                    <ul>
+                        <li><strong>Automatic Detection</strong>: Identifies common Z-axis alignment issues</li>
+                        <li><strong>Smart Correction</strong>: Applies appropriate fixes based on scene analysis</li>
+                        <li><strong>Preview and Adjust</strong>: See changes before applying</li>
+                        <li><strong>Multiple Correction Methods</strong>: Ground plane alignment, scale-based correction, manual offset</li>
+                    </ul>
+                </details>
+
+                <details>
+                    <summary>Data Quality Improvements</summary>
+                    <ul>
+                        <li><strong>Outlier Removal</strong>: Statistical filtering of erroneous points</li>
+                        <li><strong>Density Optimization</strong>: Balance point density for performance</li>
+                        <li><strong>Noise Reduction</strong>: Smooth irregular surfaces</li>
+                        <li><strong>Scale Normalization</strong>: Ensure consistent scale across imports</li>
+                    </ul>
+                </details>
             </section>
 
             <section id="best" class="card" aria-labelledby="best-title">
@@ -606,7 +676,10 @@
                     <li><strong>Processing fails</strong>: Check executable paths in preferences</li>
                     <li><strong>Out of memory</strong>: Reduce Max Image Size or use lower quality</li>
                     <li><strong>Poor tracking</strong>: Adjust camera model or increase Max Features</li>
-                    <li><strong>Slow processing</strong>: Enable GPU or reduce video resolution</li>
+                    <li><strong>Slow processing</strong>: Check GPU settings in preferences or reduce video resolution</li>
+                    <li><strong>Z-axis issues</strong>: Use the new Z-axis post-processing in v0.2</li>
+                    <li><strong>Import problems</strong>: Try the new reimport option in v0.2</li>
+                    <li><strong>GPU not detected</strong>: Verify GPU settings in Preferences → Add-ons → Open Video Tracker → GPU Configuration</li>
                 </ul>
             </section>
 
